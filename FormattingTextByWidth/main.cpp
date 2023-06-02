@@ -41,5 +41,5 @@ int main(int argc, char *argv[])
 
     qInfo()<< "Текст успешно отформатирован и записан в файл:" << outputFilename << endl;
 
-    return a.exec();
+    return 0;
 }

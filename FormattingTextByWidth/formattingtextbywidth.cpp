@@ -42,6 +42,14 @@ QString PutSpacesBetweenWords(const QString &inputText, int width)
         {
             QStringList words = line.split(' ', QString::SkipEmptyParts);
             int wordCount = words.size();
+            double requiredLength = width * 0.8;
+
+            if (line.length() < requiredLength)
+            {
+                result += line + '\n';
+                continue;
+            }
+
             int totalSpaces = width - line.length() + wordCount - 1;
             int spacesBetweenWords = totalSpaces / (wordCount - 1);
             int extraSpaces = totalSpaces % (wordCount - 1);
