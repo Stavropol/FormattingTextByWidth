@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include "formattingtextbywidth.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,7 +12,6 @@ int main(int argc, char *argv[])
     QTextStream in(stdin);
     QTextStream out(stdout);
     int width = 40;
-    QString outputText;
 
     qInfo() << "Введите путь к файлу для чтения: ";
     QString inputFilename = in.readLine();
@@ -35,47 +35,8 @@ int main(int argc, char *argv[])
     }
 
     QTextStream output(&outputFile);
-
-    QString currentLine;
-    QStringList words = inputText.split(' ');
-
-       for (const QString& word : words) {
-           if (currentLine.length() + word.length() + 1 <= width) {
-               if (!currentLine.isEmpty()) {
-                   currentLine.append(' ');
-               }
-               currentLine.append(word);
-           } else {
-               outputText.append(currentLine + '\n');
-               currentLine = word;
-           }
-       }
-
-       outputText.append(currentLine);
-
-       // Расстановка пробелов в каждой строке, если достигнут порог 80% от ширины
-       QString result2;
-           QStringList lines = outputText.split('\n', QString::SkipEmptyParts);
-
-           for (const QString& line : lines)
-           {
-               QStringList words = line.split(' ', QString::SkipEmptyParts);
-               int wordCount = words.size();
-
-               int totalSpaces = width - line.length() + wordCount - 1;
-               int spacesBetweenWords = totalSpaces / (wordCount - 1);
-               int extraSpaces = totalSpaces % (wordCount - 1);
-
-               for (int i = 0; i < wordCount - 1; ++i)
-               {
-                   result2 += words[i] + QString(spacesBetweenWords + (i < extraSpaces ? 1 : 0), ' ');
-               }
-
-               result2 += words.last() + '\n';
-           }
-
-
-    output << result2;
+    QString outputText = formatString(inputText, width);
+    output << outputText;
     outputFile.close();
 
     qInfo()<< "Текст успешно отформатирован и записан в файл:" << outputFilename << endl;
