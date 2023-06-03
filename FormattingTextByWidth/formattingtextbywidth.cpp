@@ -15,20 +15,24 @@ QString FormStringsFromWord(const QString &inputText, int width)
     QString currentLine;
     QString str =    inputText;
             str.replace(QRegularExpression(" +"), " ");
-    QStringList words = str.split(' ');
+            QStringList lines = str.split('\n', QString::SkipEmptyParts);
 
-    for (const QString& word : words) {
-        if (currentLine.length() + word.length() + 1 <= width) {
-            if (!currentLine.isEmpty()) {
-                currentLine.append(' ');
-            }
-            currentLine.append(word);
-        } else {
-            result.append(currentLine + '\n');
-            currentLine = word;
-        }
-    }
-    result.append(currentLine);
+               for (const QString& line : lines) {
+                   QStringList words = line.split(' ', QString::SkipEmptyParts);
+                   for (const QString& word : words) {
+                       if (currentLine.length() + word.length() + 1 <= width) {
+                           if (!currentLine.isEmpty()) {
+                               currentLine.append(' ');
+                           }
+                           currentLine.append(word);
+                       } else {
+                           result.append(currentLine + '\n');
+                           currentLine = word;
+                       }
+                   }
+                   result.append(currentLine + '\n');
+                   currentLine.clear();
+               }
 
     return result;
 }
