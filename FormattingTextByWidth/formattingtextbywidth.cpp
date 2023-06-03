@@ -13,8 +13,9 @@ QString FormStringsFromWord(const QString &inputText, int width)
 {
     QString result;
     QString currentLine;
-
-    QStringList words = inputText.split(' ');
+    QString str =    inputText;
+            str.replace(QRegularExpression(" +"), " ");
+    QStringList words = str.split(' ');
 
     for (const QString& word : words) {
         if (currentLine.length() + word.length() + 1 <= width) {
