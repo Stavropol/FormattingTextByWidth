@@ -11,7 +11,9 @@ int main(int argc, char *argv[])
     setlocale(LC_ALL, "rus");
     QTextStream in(stdin);
     QTextStream out(stdout);
-    int width = 40;
+    int width;
+
+    scanf("%d", &width);
 
     qInfo() << "Введите путь к файлу для чтения: ";
     QString inputFilename = in.readLine();
