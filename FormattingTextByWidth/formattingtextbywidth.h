@@ -4,7 +4,6 @@
 #include <QTextStream>
 #include <QRegularExpression>
 
-QString formatString(const QString& inputText, int width);
 QString FormStringsFromWord(const QString& inputText, int width);
 QString PutSpacesBetweenWords(const QString& inputText, int width);
 

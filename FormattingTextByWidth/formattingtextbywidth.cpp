@@ -1,14 +1,5 @@
 #include "formattingtextbywidth.h"
 
-// Функция, которая форматирует строку по ширине с расстановкой переносов
-QString formatString(const QString& inputText, int width) {
-
-    QString result = FormStringsFromWord(inputText, width);
-    QString formattedText = PutSpacesBetweenWords(result, width);
-
-   return formattedText;
-}
-
 QString FormStringsFromWord(const QString &inputText, int width)
 {
     QString result;
