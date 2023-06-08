@@ -11,12 +11,9 @@ int main(int argc, char *argv[])
     setlocale(LC_ALL, "rus");
     QTextStream in(stdin);
     QTextStream out(stdout);
-    int width;
+    QString width = argv[1];
 
-    scanf("%d", &width);
-
-    qInfo() << "Введите путь к файлу для чтения: ";
-    QString inputFilename = in.readLine();
+    QString inputFilename = argv[2];
 
     QFile inputFile(inputFilename);
     if (!inputFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -27,8 +24,7 @@ int main(int argc, char *argv[])
     QString inputText = QString::fromUtf8(inputFile.readAll());
     inputFile.close();
 
-    qInfo() << "Введите путь к файлу для записи: ";
-    QString outputFilename = in.readLine();
+    QString outputFilename = argv[3];
 
     QFile outputFile(outputFilename);
     if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -37,7 +33,7 @@ int main(int argc, char *argv[])
     }
 
     QTextStream output(&outputFile);
-    QString outputText = formatString(inputText, width);
+    QString outputText = formatString(inputText, width.toInt());
     output << outputText;
     outputFile.close();
 
