@@ -51,33 +51,41 @@ QString FormStringsFromWord(const QString &inputText, int width)
 
 QString PutSpacesBetweenWords(const QString &inputText, int width)
 {
-    // Расстановка пробелов в каждой строке, если достигнут порог 80% от ширины
-    QString result;
-        QStringList lines = inputText.split('\n', QString::SkipEmptyParts);
 
+    QString result; // Результирующая строка
+
+    // Разделяем входной текст на строки по символу новой строки
+    QStringList lines = inputText.split('\n', QString::SkipEmptyParts);
+
+
+        // Перебираем каждую строку
         for (const QString& line : lines)
         {
+            // Разделяем строку на слова по пробелам
             QStringList words = line.split(' ', QString::SkipEmptyParts);
-            int wordCount = words.size();
-            double requiredLength = width * 0.8;
+            int wordCount = words.size(); // Количество слов в строке
+            double requiredLength = width * 0.8; // Необходимая длина строки для применения форматирования
 
+            // Если длина строки меньше 80% от ширины, просто добавляем строку в результат без форматирования
             if (line.length() < requiredLength)
             {
                 result += line + '\n';
                 continue;
             }
 
-            int totalSpaces = width - line.length() + wordCount - 1;
-            int spacesBetweenWords = totalSpaces / (wordCount - 1);
-            int extraSpaces = totalSpaces % (wordCount - 1);
+            int totalSpaces = width - line.length() + wordCount - 1; // Общее количество пробелов, которые нужно добавить
+            int spacesBetweenWords = totalSpaces / (wordCount - 1); // Количество пробелов между каждыми двумя словами
+            int extraSpaces = totalSpaces % (wordCount - 1); // Оставшиеся пробелы, которые нужно добавить после равномерного распределения
 
+            // Добавляем пробелы между словами с учетом равномерного распределения
             for (int i = 0; i < wordCount - 1; ++i)
             {
                 result += words[i] + QString(spacesBetweenWords + (i < extraSpaces ? 1 : 0), ' ');
             }
 
-            result += words.last() + '\n';
+            result += words.last() + '\n'; // Добавляем последнее слово в строку с символом новой строки
         }
 
+        // Возвращаем сформированный текст
         return result;
 }
