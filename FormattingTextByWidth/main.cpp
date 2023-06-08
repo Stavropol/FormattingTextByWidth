@@ -33,7 +33,9 @@ int main(int argc, char *argv[])
     }
 
     QTextStream output(&outputFile);
-    QString outputText = formatString(inputText, width.toInt());
+    QString outputText = FormStringsFromWord(inputText, width.toInt());
+    outputText = PutSpacesBetweenWords(outputText,width.toInt());
+    //QString outputText = formatString(inputText, width.toInt());
     output << outputText;
     outputFile.close();
 
