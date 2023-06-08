@@ -2,29 +2,50 @@
 
 QString FormStringsFromWord(const QString &inputText, int width)
 {
-    QString result;
-    QString currentLine;
-    QString str =    inputText;
+    QString result; // Результирующая строка
+    QString currentLine; // Текущая строка, которая будет формироваться
+    QString str = inputText; // Полученная строка
+
+            // Удаляем повторяющиеся пробелы, заменяя их на один пробел
             str.replace(QRegularExpression(" +"), " ");
+
+            // Разделяем текст на строки по символу новой строки
             QStringList lines = str.split('\n', QString::SkipEmptyParts);
 
+               // Перебираем каждую строку
                for (const QString& line : lines) {
+
+                   // Разделяем строку на слова по пробелам
                    QStringList words = line.split(' ', QString::SkipEmptyParts);
+
+                   // Перебираем каждое слово в строке
                    for (const QString& word : words) {
+
+                       // Если добавление текущего слова к текущей строке не превышает заданную ширину
                        if (currentLine.length() + word.length() + 1 <= width) {
+
+                           // Если текущая строка не пуста, добавляем пробел перед текущим словом
                            if (!currentLine.isEmpty()) {
                                currentLine.append(' ');
                            }
+
+                           // Добавляем текущее слово к текущей строке
                            currentLine.append(word);
                        } else {
+
+                           // Если добавление текущего слова превышает заданную ширину,
+                           // добавляем текущую строку в результат и начинаем новую строку с текущим словом
                            result.append(currentLine + '\n');
                            currentLine = word;
                        }
                    }
+
+                   // Добавляем оставшуюся часть текущей строки в результат
                    result.append(currentLine + '\n');
                    currentLine.clear();
                }
 
+    // Возвращаем сформированный текст
     return result;
 }
 
