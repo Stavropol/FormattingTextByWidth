@@ -1,5 +1,47 @@
 #include "formattingtextbywidth.h"
 
+
+QString readTxtFileToString(int width, const QString& inputFileName)
+{
+
+    QFile file(inputFileName);  // Создание объекта файла
+       if (!file.exists()) {
+           qWarning() << "Файл не найден:" << inputFileName;
+           return QString();  // Возвращаем пустую строку в случае ошибки
+       }
+
+       if (width < 50 || width > 250) {
+           qWarning() << "Ширина должна быть в диапазоне от 50 до 250";
+           return QString();  // Возвращаем пустую строку в случае ошибки
+       }
+
+       if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+           qWarning() << "Не удалось открыть файл для чтения:" << inputFileName;
+           return QString();  // Возвращаем пустую строку в случае ошибки
+       }
+
+       QString content = QString::fromUtf8(file.readAll());  // Чтение содержимого файла в строку
+       file.close();  // Закрытие файла после чтения
+
+       if (content.isEmpty()) {
+           qWarning() << "Входной файл не содержит текста";
+           return QString();  // Возвращаем пустую строку в случае ошибки
+       }
+
+       QStringList words = content.split(' ', QString::SkipEmptyParts);
+       for (const QString& word : words) {
+           if (word.length() > width) {
+               qWarning() << "Слово превышает допустимую ширину:" << word;
+               return QString();  // Возвращаем пустую строку в случае ошибки
+           }
+       }
+
+       return content;  // Возвращаем содержимое файла
+
+}
+
+
+
 QString FormStringsFromWord(const QString &inputText, int width)
 {
     QString result; // Результирующая строка
