@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
 
     QTextStream output(&outputFile);
-    QString outputText = FormStringsFromWord(inputText, width.toInt()); // Форматирование текста, расстановка переносов.
+    QString outputText = ArrangeHyphenationsLine(inputText, width.toInt()); // Форматирование текста, расстановка переносов.
     outputText = PutSpacesBetweenWords(outputText,width.toInt()); // Добавление пробелов.
     output << outputText; // Запись отформатированного текста в файл.
     outputFile.close(); // Закрытие файла.

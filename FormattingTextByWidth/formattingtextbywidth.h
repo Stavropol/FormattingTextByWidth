@@ -28,7 +28,7 @@ QString ReadTxtFileToString(int width, const QString& inputFileName);
     QString outputText = FormStringsFromWord(inputText, width.toInt());
   *\endcode
 */
-QString FormStringsFromWord(const QString& inputText, int width);
+QString ArrangeHyphenationsLine(const QString& inputText, int width);
 
 /**
 * @brief Расставляет пробелы между словами в строках, пока не будет получена необходимая длина при условии, что исходная строка занимает не менее 80% диапазона.

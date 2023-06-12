@@ -1,7 +1,7 @@
 #include "formattingtextbywidth.h"
 
-
-QString readTxtFileToString(int width, const QString& inputFileName)
+// Считывает текст из входного файла и проверяет правильность введенных пользователем данных.
+QString ReadTxtFileToString(int width, const QString& inputFileName)
 {
 
     QFile file(inputFileName);  // Создание объекта файла
@@ -47,8 +47,8 @@ QString readTxtFileToString(int width, const QString& inputFileName)
 }
 
 
-
-QString FormStringsFromWord(const QString &inputText, int width)
+// Создает многострочный текст заданной длины из обычной строки.
+QString ArrangeHyphenationsLine(const QString &inputText, int width)
 {
     QString result; // Результирующая строка
     QString currentLine; // Текущая строка, которая будет формироваться
@@ -97,6 +97,7 @@ QString FormStringsFromWord(const QString &inputText, int width)
     return result;
 }
 
+// Расставляет пробелы между словами в строках, пока не будет получена необходимая длина при условии, что исходная строка занимает не менее 80% диапазона.
 QString PutSpacesBetweenWords(const QString &inputText, int width)
 {
 
