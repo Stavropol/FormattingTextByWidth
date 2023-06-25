@@ -38,6 +38,11 @@ int main(int argc, char *argv[])
     QTextStream in(stdin);
     QTextStream out(stdout);
 
+    if (argc < 4) {
+        qWarning() << "Неверные входные параметры. Возможно отсутствуют параметры ширины форматирования или имя входного/выходного файла.";
+        return -1;
+    }
+
     QString width = argv[1];// Получение ширины текста из аргумента командной строки.
     QString inputFileName = argv[2]; // Получение имени входного файла из аргумента командной строки.
 
