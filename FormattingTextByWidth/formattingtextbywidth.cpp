@@ -11,12 +11,6 @@ QString ReadTxtFileToString(int width, const QString& inputFileName)
            return QString();  // Возвращаем пустую строку в случае ошибки
        }
 
-       // Проверка на нарушение диапазона.
-       if (width < 50 || width > 250) {
-           qWarning() << "Программа форматирует текст по длине только в диапазоне от 50 до 250 символов.";
-           return QString();  // Возвращаем пустую строку в случае ошибки
-       }
-
        // Проверка на возможность открытия файла.
        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
            qWarning() << "Неверно указан файл с входными данными. Возможно, файл не существует." << inputFileName;
@@ -48,7 +42,7 @@ QString ReadTxtFileToString(int width, const QString& inputFileName)
 }
 
 
-// Создает многострочный текст заданной длины из обычной строки.
+// Выполняет разбиение текста на строки с заданной шириной, добавляя переносы строк в местах, где слова не помещаются в заданную ширину.
 QString ArrangeHyphenationsLine(const QString &inputText, int width)
 {
     QString result; // Результирующая строка
@@ -98,7 +92,7 @@ QString ArrangeHyphenationsLine(const QString &inputText, int width)
     return result;
 }
 
-// Расставляет пробелы между словами в строках, пока не будет получена необходимая длина при условии, что исходная строка занимает не менее 80% диапазона.
+// Расставляет в строках пробелы между словами, пока не будет получена необходимая длина при условии, что исходная строка занимает не менее 80% диапазона
 QString PutSpacesBetweenWords(const QString &inputText, int width)
 {
     QString result; // Результирующая строка
