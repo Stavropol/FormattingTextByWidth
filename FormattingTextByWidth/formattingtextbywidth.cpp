@@ -3,24 +3,23 @@
 // Считывает текст из входного файла и проверяет правильность введенных пользователем данных.
 QString ReadTxtFileToString(int width, const QString& inputFileName)
 {
-
     QFile file(inputFileName);  // Создание объекта файла
 
        // Проверка на наличие файла.
        if (!file.exists()) {
-           qWarning() << "Файл не найден:" << inputFileName;
+           qWarning() << "Неверно указан файл с входными данными. Возможно, файл не существует." << inputFileName;
            return QString();  // Возвращаем пустую строку в случае ошибки
        }
 
        // Проверка на нарушение диапазона.
        if (width < 50 || width > 250) {
-           qWarning() << "Ширина должна быть в диапазоне от 50 до 250";
+           qWarning() << "Программа форматирует текст по длине только в диапазоне от 50 до 250 символов.";
            return QString();  // Возвращаем пустую строку в случае ошибки
        }
 
        // Проверка на возможность открытия файла.
        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-           qWarning() << "Не удалось открыть файл для чтения:" << inputFileName;
+           qWarning() << "Неверно указан файл с входными данными. Возможно, файл не существует." << inputFileName;
            return QString();  // Возвращаем пустую строку в случае ошибки
        }
 
@@ -29,21 +28,23 @@ QString ReadTxtFileToString(int width, const QString& inputFileName)
 
        // Проверка на наличие текста в файле.
        if (content.isEmpty()) {
-           qWarning() << "Входной файл не содержит текста";
+           qWarning() << "Программа принимает на вход файлы, содержащие не менее 1 строки. Убедитесь, что в исходном файле не менее 1 строки.";
            return QString();  // Возвращаем пустую строку в случае ошибки
        }
 
+
        // Проверка на превышение словами заданного диапазона.
        QStringList words = content.split(' ', QString::SkipEmptyParts);
-       for (const QString& word : words) {
-           if (word.length() > width) {
-               qWarning() << "Слово превышает допустимую ширину:" << word;
-               return QString();  // Возвращаем пустую строку в случае ошибки
-           }
+       auto it = std::find_if(words.begin(), words.end(), [width](const QString& word) {
+           return word.size() > width;
+       });
+
+       if (it != words.end()) {
+           qWarning() << "Проверьте правильность расстановки пробелов, количество символов в слове имеет превышение диапазона:" << *it;
+           return QString();  // Возвращаем пустую строку в случае ошибки
        }
 
        return content;  // Возвращаем содержимое файла
-
 }
 
 
@@ -100,7 +101,6 @@ QString ArrangeHyphenationsLine(const QString &inputText, int width)
 // Расставляет пробелы между словами в строках, пока не будет получена необходимая длина при условии, что исходная строка занимает не менее 80% диапазона.
 QString PutSpacesBetweenWords(const QString &inputText, int width)
 {
-
     QString result; // Результирующая строка
 
     // Разделяем входной текст на строки по символу новой строки

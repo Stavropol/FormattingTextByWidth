@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     QFile outputFile(outputFilename); // Создание объекта файла для записи.
 
     if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "Не удалось открыть файл для записи:" << outputFilename;
+        qWarning() << "Неверно указан файл для выходных данных. Возможно указанного расположения не существует или нет прав на запись." << outputFilename;
         return -1;
     }
 

@@ -5,6 +5,7 @@
 #include <QRegularExpression>
 #include <QFile>
 #include <QDebug>
+#include <algorithm>
 
 /**
 * @brief Считывает текст из входного файла и проверяет правильность введенных пользователем данных.
@@ -25,7 +26,7 @@ QString ReadTxtFileToString(int width, const QString& inputFileName);
 * @return result - многострочный текст, полученный в результате форматирования.
 * <summary>Пример вызова функции:</summary>
   *\code
-    QString outputText = FormStringsFromWord(inputText, width.toInt());
+    QString outputText = ArrangeHyphenationsLine(inputText, width.toInt());
   *\endcode
 */
 QString ArrangeHyphenationsLine(const QString& inputText, int width);
